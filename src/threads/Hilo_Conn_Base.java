@@ -11,8 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTextArea;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -174,8 +172,6 @@ public class Hilo_Conn_Base extends Thread {
                     details_file.close_write_stream();
                     finalize_components();
                     add_to_log("Retornando el control al JFrame.");
-
-                    //this.JF_content.getjButton_Initialize().setEnabled(true);
                     this.JF_content.toggleButtons(true);
                     add_to_log("\n=====================\n===== PARSED OK =====\n=====================");
                 } else {

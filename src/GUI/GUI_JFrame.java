@@ -10,8 +10,6 @@ import threads.Hilo_Conn_Base;
 import java.awt.Color;
 import java.io.File;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -51,11 +49,7 @@ public class GUI_JFrame extends javax.swing.JFrame {
     public final boolean is_win_based_os() {
         String nombreSistemaOperativo = System.getProperty("os.name")
                 .toLowerCase();
-        if (nombreSistemaOperativo.contains("win")) {
-            return true;
-        } else {
-            return false;
-        }
+        return nombreSistemaOperativo.contains("win");
     }
 
     /**
@@ -82,7 +76,7 @@ public class GUI_JFrame extends javax.swing.JFrame {
         jButton_GenerateLinks = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("HTML Parser (v.2.1.4.alpha)");
+        setTitle("Google Store Parser (v.2.1.5.alpha)");
 
         jLabel1.setText("Directorio:");
 

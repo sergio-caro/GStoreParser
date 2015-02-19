@@ -21,7 +21,7 @@ import org.jsoup.select.Elements;
  */
 public class ParserClass {
 
-    private GUI_JFrame JF_content;
+    private final GUI_JFrame JF_content;
 
     public ParserClass(GUI_JFrame JF_content) {
         this.JF_content = JF_content;
@@ -86,7 +86,6 @@ public class ParserClass {
 
                         String precio = reason_set.first().select(".display-price").first().text();
                         if (precio.isEmpty()) {
-                            //this.JF_content.add_to_log("[" + i + "]name: " + nombre_app + " ----- " + valoracion + " ----- precio: " + precio);
                             precio = "Gratis";
                         } else {
                             paid_app_details += "\n[" + i + "] App: \"" + nombre_app + "\". Precio: " + precio;
@@ -144,10 +143,8 @@ public class ParserClass {
         try {
             Document doc = Jsoup.parse(file, "UTF-8");
             String box_class = doc.select(".card-list div").first().attr("class").replaceAll(" ", "\\.");
-            //this.JF_content.add_to_log("-----------------------------------------------");
-            //this.JF_content.add_to_log("--------->" + box_class);
-            //this.JF_content.add_to_log("-----------------------------------------------");
             Elements boxes_full = doc.select("."+box_class);
+            //old CSS clases
             //Elements boxes_full = doc.select(".card.no-rationale.square-cover.apps.small");
             //Elements boxes_full = doc.select(".card.no-rationale.square-cover.apps.tiny");
             return boxes_full;

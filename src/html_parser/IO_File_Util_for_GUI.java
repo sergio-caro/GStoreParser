@@ -23,7 +23,7 @@ public class IO_File_Util_for_GUI {
     private BufferedWriter bw;
     private boolean can_write;
     private final File file;
-    private javax.swing.JTextArea LOG;
+    private final javax.swing.JTextArea LOG;
 
     public IO_File_Util_for_GUI(String file_path, String file_name, JTextArea LOG) {
         this.file_path = file_path;
@@ -62,7 +62,6 @@ public class IO_File_Util_for_GUI {
                 add_to_log("[INFO] Flujo de escritura abierto" + "(" + this.file_name + ")");
                 return true;
             } catch (IOException ex) {
-                //Logger.getLogger(IO_File_Util.class.getName()).log(Level.SEVERE, null, ex);
                 this.can_write = false;
                 add_to_log("[ERROR] No se ha podido abrir flujo de escritura. (" + ex.toString() + ")" + "(" + this.file_name + ")");
                 return false;
@@ -82,7 +81,6 @@ public class IO_File_Util_for_GUI {
             add_to_log("[INFO] Flujo de escritura cerrado." + "(" + this.file_name + ")");
             return true;
         } catch (Exception ex) {
-            //Logger.getLogger(IO_File_Util.class.getName()).log(Level.SEVERE, null, ex);
             add_to_log("[ERROR] Fallo al cerrar el flujo. (" + ex.toString() + ")" + "(" + this.file_name + ")");
             return false;
         }
@@ -94,7 +92,6 @@ public class IO_File_Util_for_GUI {
                 bw.write(stream);
                 return true;
             } catch (IOException ex) {
-                //Logger.getLogger(IO_File_Util.class.getName()).log(Level.SEVERE, null, ex);
                 add_to_log("[ERROR] Fallo al escribir. (" + ex.toString() + ")" + "(" + this.file_name + ")");
                 return false;
             }
@@ -110,7 +107,6 @@ public class IO_File_Util_for_GUI {
                 bw.newLine();
                 return true;
             } catch (IOException ex) {
-                //Logger.getLogger(IO_File_Util.class.getName()).log(Level.SEVERE, null, ex);
                 add_to_log("[ERROR] Fallo al escribir. (" + ex.toString() + ")" + "(" + this.file_name + ")");
                 return false;
             }
