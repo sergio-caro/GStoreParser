@@ -23,18 +23,22 @@ import org.jsoup.select.Elements;
  */
 public class Hilo_Conn_Base extends Thread {
 
-    private String filePath;
-    private String fileName;
-    private javax.swing.JTextArea LOG;
+    private final String filePath;
+    private final String fileName;
+    private final javax.swing.JTextArea LOG;
     private Elements lista_enlaces;
     private boolean can_continue = false;
     private boolean ok_initialization = false;
     private boolean halt_request = false;
-    private GUI_JFrame JF_content;
+    private final GUI_JFrame JF_content;
 
-    public Hilo_Conn_Base() {
-    }
-
+    /**
+     * Thread constructor
+     * @param filePath Path to the file (ending with separator)
+     * @param fileName File name (where data is saved)
+     * @param LOG jTextArea for the log
+     * @param gui JFrame (GUI_JFrame)
+     */
     public Hilo_Conn_Base(String filePath, String fileName, JTextArea LOG, GUI_JFrame gui) {
         this.filePath = filePath;
         this.fileName = fileName;

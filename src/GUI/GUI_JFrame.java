@@ -23,7 +23,7 @@ public class GUI_JFrame extends javax.swing.JFrame {
     /**
      * Creates new form GUI_JFrame
      */
-    private Hilo_Conn_Base hilo_conexiones = new Hilo_Conn_Base();
+    private Hilo_Conn_Base hilo_conexiones;
 
     // Directory separator (Unix-based by default)
     private String path_separator = "/";
