@@ -13,7 +13,8 @@ import java.util.Date;
 import javax.swing.JTextArea;
 
 /**
- *
+ * Class with tools to write into a file.
+ * Adapted to GUI_JFrame graphic interface
  * @author sergio
  */
 public class IO_File_Util_for_GUI {
@@ -25,6 +26,12 @@ public class IO_File_Util_for_GUI {
     private final File file;
     private final javax.swing.JTextArea LOG;
 
+    /**
+     * Constructor for a given file
+     * @param file_path File path to the parent directory of the file (ending with path separator)
+     * @param file_name File name (with extension)
+     * @param LOG element for logging status
+     */
     public IO_File_Util_for_GUI(String file_path, String file_name, JTextArea LOG) {
         this.file_path = file_path;
         this.file_name = file_name;
@@ -35,10 +42,18 @@ public class IO_File_Util_for_GUI {
         this.file = new File(this.file_path + this.file_name);
     }
 
+    /**
+     * Writes on log
+     * @param text Message to write on log
+     */
     private void add_to_log(String text) {
         LOG.setText(LOG.getText() + "\n [" + (new Date()).toString() + "] [IO_File_Util] " + text);
     }
-    
+   
+    /**
+     * Creates the file physically
+     * @return Status of creation
+     */
     public boolean create_file() {
         try {
             if (this.file.createNewFile()) {
@@ -54,6 +69,10 @@ public class IO_File_Util_for_GUI {
         }
     }
 
+    /**
+     * Method to open a write stream to the file
+     * @return status
+     */
     public boolean open_write_stream() {
         if (this.file.exists() && this.file.isFile() && this.file.canWrite()) {
             try {
@@ -74,6 +93,10 @@ public class IO_File_Util_for_GUI {
         }
     }
 
+    /**
+     * Closes the write stream
+     * @return status
+     */
     public boolean close_write_stream() {
         try {
             this.bw.close();
@@ -86,6 +109,11 @@ public class IO_File_Util_for_GUI {
         }
     }
 
+    /**
+     * Writes a given content into the file
+     * @param stream Content to write on file
+     * @return status
+     */
     public boolean write_on_file(String stream) {
         if (this.can_write) {
             try {
@@ -101,6 +129,10 @@ public class IO_File_Util_for_GUI {
         }
     }
     
+    /**
+     * Writes an empty line in the file
+     * @return status
+     */
     public boolean write_on_file_new_line(){
         if (this.can_write) {
             try {
