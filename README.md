@@ -4,7 +4,7 @@ This is a **Java** application that generates **CSV files** (for importing into 
 Because of the way of working of Google ("*lazy load*" of resources), the user must download the list of applications (web page as HTML) and tell the program the location of this file to start working.
 
 ## Download
-Go to Releases section (https://github.com/sergio-caro/GStoreParser/releases) and get the latest one.
+Go to [Releases section](https://github.com/sergio-caro/GStoreParser/releases) and get the latest one.
 
 After downloading the compressed file, uncompress it and execute the JAR file (GStoreParser.jar).
 
