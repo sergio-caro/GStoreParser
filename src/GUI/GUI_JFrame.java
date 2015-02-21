@@ -15,21 +15,22 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 /**
- *
+ * JFrame
  * @author sergio
  */
 public class GUI_JFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form GUI_JFrame
-     */
-    private Hilo_Conn_Base hilo_conexiones = new Hilo_Conn_Base();
+    //Creates new form GUI_JFrame
+    private Hilo_Conn_Base hilo_conexiones;
 
     // Directory separator (Unix-based by default)
     private String path_separator = "/";
     // Default directory (Unix-based by default)
     private String base_path = "/Users/sergio/Dropbox/Universidad/Doctorado/Estudio Android/paso 1/instant messenger/";
 
+    /**
+     * Constructor of JFrame (sets up file system and initalizes graphical elements)
+     */
     public GUI_JFrame() {
         if (is_win_based_os()) {
             // If Win-based OS, change path to a Windows format
@@ -42,10 +43,18 @@ public class GUI_JFrame extends javax.swing.JFrame {
         jtf_filePath.setText(this.base_path);
     }
 
+    /**
+     * Get the path separator of the system
+     * @return Path separator
+     */
     public String get_base_path() {
         return path_separator;
     }
 
+    /**
+     * Retrieve system information and determine if its Windows
+     * @return true if Windows system detected, false otherwise
+     */
     public final boolean is_win_based_os() {
         String nombreSistemaOperativo = System.getProperty("os.name")
                 .toLowerCase();
@@ -269,6 +278,10 @@ public class GUI_JFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton_BrowseFileActionPerformed
 
+    /**
+     * Generate a graphical File Chooser
+     * @return JFileChooser element
+     */
     private JFileChooser generateFileChooser() {
         JFileChooser fileChooser = new JFileChooser();
 
@@ -303,6 +316,10 @@ public class GUI_JFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton_GenerateLinksActionPerformed
 
+    /**
+     * Toggles graphical buttons from enabled to disabled
+     * @param b true if enabled required, false otherwise
+     */
     public void toggleButtons(boolean b) {
         this.jButton_Initialize.setEnabled(b);
         jButton_BrowseFile.setEnabled(b);
@@ -311,14 +328,26 @@ public class GUI_JFrame extends javax.swing.JFrame {
         this.jToggleButton_start_stop.setEnabled(!b);
     }
 
+    /**
+     * Adds a given text to the log
+     * @param text String to add to the log
+     */
     public void add_to_log(String text) {
         this.jTextArea1.setText(jTextArea1.getText() + "\n [" + (new Date()).toString() + "] [JFrame] " + text);
     }
 
+    /**
+     * Return the Log text area
+     * @return JTextArea of the log element
+     */
     public JTextArea getjTextArea1() {
         return jTextArea1;
     }
 
+    /**
+     * Return button of initialization and disabled file buttons
+     * @return button on initialization request
+     */
     public javax.swing.JButton getjButton_Initialize() {
         jButton_BrowseFile.setEnabled(true);
         jButton_GenerateLinks.setEnabled(true);

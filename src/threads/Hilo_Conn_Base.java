@@ -18,7 +18,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
- *
+ * Java Thread that connects to Google in order to retrieve individual data of a given app.
  * @author sergio
  */
 public class Hilo_Conn_Base extends Thread {
@@ -32,9 +32,22 @@ public class Hilo_Conn_Base extends Thread {
     private boolean halt_request = false;
     private GUI_JFrame JF_content;
 
-    public Hilo_Conn_Base() {
+    
+    /**
+     * Thread constructor
+     * @deprecated Preferably not use this constructor.
+     */
+    public Hilo_Conn_Base(){
+        
     }
-
+    
+    /**
+     * Thread constructor
+     * @param filePath Path to the file (ending with separator)
+     * @param fileName File name (where data is saved)
+     * @param LOG jTextArea for the log
+     * @param gui JFrame (GUI_JFrame)
+     */
     public Hilo_Conn_Base(String filePath, String fileName, JTextArea LOG, GUI_JFrame gui) {
         this.filePath = filePath;
         this.fileName = fileName;
@@ -43,7 +56,11 @@ public class Hilo_Conn_Base extends Thread {
         this.JF_content = gui;
         initialize_components();
     }
+    
 
+    /**
+     * Initialize all elements (called on constructor)
+     */
     private void initialize_components() {
         add_to_log("Iniciando componentes");
         try {
@@ -65,10 +82,18 @@ public class Hilo_Conn_Base extends Thread {
         }
     }
 
+    /**
+     * Writes on log a given message
+     * @param text Message to log
+     */
     private void add_to_log(String text) {
         LOG.setText(LOG.getText() + "\n [" + (new Date()).toString() + "] [Hilo_Connection] " + text);
     }
 
+    /**
+     * Ends all components and save files.
+     * Called when the thread is over.
+     */
     private void finalize_components() {
         String html_skeleton_begin = " <!DOCTYPE html\n" + "PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n"
                 + "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n" + "<html>\n" + "\n" + "<head>\n"
@@ -98,23 +123,39 @@ public class Hilo_Conn_Base extends Thread {
         }
     }
 
+    /**
+     * Request a temporarly pause in execution
+     */
     public void stop_temporarly() {
         this.can_continue = false;
     }
 
+    /**
+     * Request to start connecting to Google
+     */
     public void initalize_request() {
         this.can_continue = true;
     }
 
+    /**
+     * Request abortion of execution
+     */
     public void halt_request() {
         this.halt_request = true;
         this.can_continue = false;
     }
 
+    /**
+     * Components initialization went OK??
+     * @return Returns if initialization elements started ok
+     */
     public boolean isOk_initialization() {
         return ok_initialization;
     }
 
+    /**
+     * Thread execution
+     */
     @Override
     public void run() {
         if (ok_initialization) {
@@ -157,7 +198,7 @@ public class Hilo_Conn_Base extends Thread {
                             }
                             index++;
                             add_to_log("esperamos...");
-                            esperarXsegundos(4);
+                            waitXseconds(4);
                             add_to_log("reanudar");
                             if (index >= lista_enlaces.size()) {
                                 can_continue = false;
@@ -185,14 +226,25 @@ public class Hilo_Conn_Base extends Thread {
         }
     }
 
-    private void esperarXsegundos(int segundos) {
+    /**
+     * Make the thread stops for given seconds
+     * @param seconds Seconds to stop the thread
+     */
+    private void waitXseconds(int seconds) {
         try {
-            Thread.sleep(segundos * 1000);
+            Thread.sleep(seconds * 1000);
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
         }
     }
 
+    /**
+     * This method connects to Google, retrieves and parses data of a given app and saves it to a file
+     * @param link Link of the app in Google Store Website
+     * @param app App Element
+     * @param details_file output file
+     * @return status of connections and parsing operation
+     */
     private boolean connect_and_parse(String link, Element app, IO_File_Util_for_GUI details_file) {
         boolean state_ok = false;
         int numb_of_req = 0;
@@ -226,7 +278,7 @@ public class Hilo_Conn_Base extends Thread {
             }
             numb_of_req++;
             if (!state_ok) {
-                esperarXsegundos(2);
+                waitXseconds(2);
             }
         }
         if (!state_ok) {

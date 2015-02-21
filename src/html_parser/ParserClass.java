@@ -16,17 +16,30 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
- *
+ * From Google Store website file, this class generates an HTML for GUI_JFrame threads and TXT summary files.
  * @author sergio
  */
 public class ParserClass {
 
     private final GUI_JFrame JF_content;
 
+    /**
+     * Constructor
+     * @param JF_content GUI elemnt
+     */
     public ParserClass(GUI_JFrame JF_content) {
         this.JF_content = JF_content;
     }
 
+    /**
+     * From a given HTML file (retrieved from Google Play Store), here it is generated three files:
+     * (1): "summary.txt" --> Plain text with details of execution
+     * (2): "csv_details.txt" --> CSV file with main details of apps
+     * (3): "app_list.html" --> HTML file for Thread execution
+     * 
+     * @param folder_path File path to the parent directory of the file (ending with path separator)
+     * @param parsed_file_name File name (with extension)
+     */
     public void generate_hyperlink_file(String folder_path, String parsed_file_name) {
         IO_File_Util_for_GUI summary = new IO_File_Util_for_GUI(folder_path, "summary.txt", this.JF_content.getjTextArea1());
         IO_File_Util_for_GUI csv_file = new IO_File_Util_for_GUI(folder_path, "csv_details.txt", this.JF_content.getjTextArea1());
@@ -139,6 +152,15 @@ public class ParserClass {
         }
     }
 
+    /**
+     * Get apps from a HTML file
+     * Apps are retrieved from file using Jsoup library for DOM
+     * 
+     * @see Jsoup library
+     * 
+     * @param file Input HTML file (Google Store page)
+     * @return Apps found on file
+     */
     private Elements generateBoxes(File file) {
         try {
             Document doc = Jsoup.parse(file, "UTF-8");
