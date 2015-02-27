@@ -11,7 +11,9 @@ After downloading the compressed file, uncompress it and execute the JAR file (G
 You may need to install Java JRE in its last version.
 
 ## User Guide
-(Soon)
+You could find information about execution on the [Wiki](https://github.com/sergio-caro/GStoreParser/wiki). 
+
+At the moment, user guide is only in spanish.
 
 ## Do you want to contribute?
 Fork the repository, change whatever you want and make a Pull Request.By the way, you are welcome!!
