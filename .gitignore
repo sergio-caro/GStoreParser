@@ -15,3 +15,6 @@ hs_err_pid*
 
 # NetBeans Project Configuration Files
 /nbproject/
+nbproject/
+/nbproject/*
+nbproject/*
