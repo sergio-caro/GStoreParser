@@ -18,3 +18,4 @@ hs_err_pid*
 nbproject/
 /nbproject/*
 nbproject/*
+nbproject/private/private.xml

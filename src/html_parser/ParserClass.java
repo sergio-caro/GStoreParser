@@ -86,6 +86,17 @@ public class ParserClass {
 
                         String nombre_app = details.first().select("a.title").first().text();
                         String href_app = details.first().select("a.title").first().attr("href");
+                        
+                        // "Full Web" or "Single Page" save have this link format:
+                        // https://play.google.com/store/apps/details?id=weatherwallpaper.rcg.com.tags
+                        //                        /store/apps/details?id=weatherwallpaper.rcg.com.tags
+                        if(!href_app.startsWith("http")){
+                            //   If Href does not starts with http, results were saved as "Single Web Page"
+                            // but "Single Web" does NOT SAVE all the apps from Google, so stop generation.
+                            throw new Exception("It seems that the results were saved as \"Web Page, Only HTML\",\n wich is not"
+                                    + "allowed since not all results are saved (20 apps are stored, at most)."
+                                    + "\nPlease, save results as \"Web Page, Full\" and try again.");
+                        }
 
                         String valoracion = reason_set.first().select(".tiny-star.star-rating-non-editable-container").first().attr("aria-label");
                         //"Valoración: 4,4 estrellas de cinco"
@@ -96,24 +107,27 @@ public class ParserClass {
                             summary.write_on_file("[" + i + "] App \"" + nombre_app + "\" does not hava rating (" + valoracion + ")");
                             summary.write_on_file_new_line();
                         }
-
-                        String precio = reason_set.first().select(".display-price").first().text();
+                        
+                        Element price_container = reason_set.first().select(".display-price").first();
+                        String precio= "";
+                        if( price_container != null){
+                            precio = price_container.text();
+                        }
                         if (precio.isEmpty()) {
                             precio = "Gratis";
                         } else {
                             paid_app_details += "\n[" + i + "] App: \"" + nombre_app + "\". Precio: " + precio;
                             paid_apps++;
                         }
+                        
                         csv_file.write_on_file(i + ";" + nombre_app + ";" + valoracion + ";" + precio.trim() + ";" + href_app);
                         csv_file.write_on_file_new_line();
-
                         if (((i - 1) % 50 == 0) && i != 1) {
                             html_simple.write_on_file("<p>" + (i - 1) + "</p><br />");
                         }
                         html_simple.write_on_file("\n<a title=\"" + i + "\" href=\"" + href_app + "\">[" + i + "] " + nombre_app + "</a>");
                         html_simple.write_on_file("<br />");
                     }
-
                     //Escribir resumen
                     summary.write_on_file_new_line();
                     summary.write_on_file("--------------------");
