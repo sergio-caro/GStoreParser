@@ -47,7 +47,6 @@ public class ParserClass {
         try {
             if (summary.create_file() & csv_file.create_file() & html_simple.create_file()) {
                 if (summary.open_write_stream() && csv_file.open_write_stream() && html_simple.open_write_stream()) {
-                    this.JF_content.add_to_log("Open streams");
                     /*==============================================================*/
                     String html_skeleton_begin = " <!DOCTYPE html\n" + "PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n"
                             + "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n" + "<html>\n" + "\n" + "<head>\n"
@@ -79,57 +78,56 @@ public class ParserClass {
                     summary.write_on_file_new_line();
                     String paid_app_details = "";
                     html_simple.write_on_file("<h3>Hyperlink App List</h3>");
-                    this.JF_content.add_to_log("Before iteartion");
                     while (iterator.hasNext()) {
-                        this.JF_content.add_to_log("Iteration "+(i+1));
                         i++;
                         box_app = iterator.next();
-                        this.JF_content.add_to_log("  Recuperado elemento");
                         Elements details = box_app.select(".details");
-                        this.JF_content.add_to_log("    -Detalles");
                         Elements reason_set = box_app.select(".reason-set");
-                        this.JF_content.add_to_log("    -Reason set");
 
                         String nombre_app = details.first().select("a.title").first().text();
-                        this.JF_content.add_to_log("    -Title");
                         String href_app = details.first().select("a.title").first().attr("href");
-                        this.JF_content.add_to_log("    -HREF");
                         
                         // "Full Web" or "Single Page" save have this link format:
                         // https://play.google.com/store/apps/details?id=weatherwallpaper.rcg.com.tags
                         //                        /store/apps/details?id=weatherwallpaper.rcg.com.tags
+                        if(!href_app.startsWith("http")){
+                            //   If Href does not starts with http, results were saved as "Single Web Page"
+                            // but "Single Web" does NOT SAVE all the apps from Google, so stop generation.
+                            throw new Exception("It seems that the results were saved as \"Web Page, Only HTML\",\n wich is not"
+                                    + "allowed since not all results are saved (20 apps are stored, at most)."
+                                    + "\nPlease, save results as \"Web Page, Full\" and try again.");
+                        }
 
                         String valoracion = reason_set.first().select(".tiny-star.star-rating-non-editable-container").first().attr("aria-label");
-                        this.JF_content.add_to_log("    -Valoración");
                         //"Valoración: 4,4 estrellas de cinco"
                         String[] valoracionComoArray = valoracion.split(" ");
 
                         valoracion = valoracionComoArray[1];
-                        this.JF_content.add_to_log("    -Split valoraciones");
                         if (valoracion.contains("0,0")) {
                             summary.write_on_file("[" + i + "] App \"" + nombre_app + "\" does not hava rating (" + valoracion + ")");
                             summary.write_on_file_new_line();
                         }
-                        this.JF_content.add_to_log("    -Ratings splitted");
-                        String precio = reason_set.first().select(".display-price").first().text();
+                        
+                        Element price_container = reason_set.first().select(".display-price").first();
+                        String precio= "";
+                        if( price_container != null){
+                            precio = price_container.text();
+                        }
                         if (precio.isEmpty()) {
                             precio = "Gratis";
                         } else {
                             paid_app_details += "\n[" + i + "] App: \"" + nombre_app + "\". Precio: " + precio;
                             paid_apps++;
                         }
-                        this.JF_content.add_to_log("    -Price stabilseh");
+                        
                         csv_file.write_on_file(i + ";" + nombre_app + ";" + valoracion + ";" + precio.trim() + ";" + href_app);
                         csv_file.write_on_file_new_line();
-                        this.JF_content.add_to_log("    -Add on csv_file"); 
                         if (((i - 1) % 50 == 0) && i != 1) {
                             html_simple.write_on_file("<p>" + (i - 1) + "</p><br />");
                         }
                         html_simple.write_on_file("\n<a title=\"" + i + "\" href=\"" + href_app + "\">[" + i + "] " + nombre_app + "</a>");
                         html_simple.write_on_file("<br />");
-                        this.JF_content.add_to_log("    -Add on html file");
                     }
-                    this.JF_content.add_to_log("Iterator ENDED");
                     //Escribir resumen
                     summary.write_on_file_new_line();
                     summary.write_on_file("--------------------");
