@@ -85,7 +85,7 @@ public class GUI_JFrame extends javax.swing.JFrame {
         jButton_GenerateLinks = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Google Store Parser (v.2.1.5.alpha)");
+        setTitle("Google Store Parser (v.2.2.0.beta)");
 
         jLabel1.setText("Directorio:");
 
